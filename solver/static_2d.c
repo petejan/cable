@@ -926,16 +926,19 @@ int SolveStaticProblem2D (init_loaded, node, num_nodes, active, num_active, out,
          else
             current_factor = 1.0;
 
-         fprintf(stdout ? stdout : stderr,"F = (%.6f, %.6f), speed = (%.6f, %.6f, %.6f, %.6f), x0 = %.6f, draft = %.6f\n",
-                 problem -> terminal[2] -> xforce,
-                 problem -> terminal[2] -> yforce,
-                 problem -> terminal[1] -> xspeed.value,
-                 problem -> terminal[1] -> yspeed.value,
-                 problem -> terminal[2] -> xspeed.value,
-                 problem -> terminal[2] -> yspeed.value, 
-                 problem -> terminal[1] -> x,
-                 problem -> terminal[2] -> buoy ? 
-                    problem -> terminal[2] -> buoy -> draft : 0.0);
+         if (problem -> solution -> quiet == 0)
+         {
+           fprintf(stdout ? stdout : stderr,"F = (%.6f, %.6f), speed = (%.6f, %.6f, %.6f, %.6f), x0 = %.6f, draft = %.6f\n",
+               problem -> terminal[2] -> xforce,
+               problem -> terminal[2] -> yforce,
+               problem -> terminal[1] -> xspeed.value,
+               problem -> terminal[1] -> yspeed.value,
+               problem -> terminal[2] -> xspeed.value,
+               problem -> terminal[2] -> yspeed.value, 
+               problem -> terminal[1] -> x,
+               problem -> terminal[2] -> buoy ? 
+               problem -> terminal[2] -> buoy -> draft : 0.0);
+         }
 
          singular = SolveDE (StaticDifeq2D, StaticUpdate2D,
                              &(analysis -> static_it), &(analysis -> static_tolerance),

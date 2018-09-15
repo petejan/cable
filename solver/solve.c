@@ -930,7 +930,8 @@ double ResolveBuoy (node, nn, step, twoD)
    else {
       fx3 = calculated_draft - b -> draft;
       x3 = b -> draft;
-      fprintf(stdout,"Before: fx3 = %g, fx1 = %g, x1 = %g, x2 = %g, b -> draft = %g\n", fx3, fx1, x1, x2, b -> draft);
+      if (problem -> solution -> quiet == 0)
+        fprintf(stdout,"Before: fx3 = %g, fx1 = %g, x1 = %g, x2 = %g, b -> draft = %g\n", fx3, fx1, x1, x2, b -> draft);
 
       if (analysis -> static_outer_method == Secant) {
          b -> draft = x3 - fx3*(x3 - x2)/(fx3 - fx2);
@@ -949,7 +950,8 @@ double ResolveBuoy (node, nn, step, twoD)
           b -> draft = (x2 + x1)/2.0;
       }
 
-      fprintf(stdout,"After: fx3 = %g, fx1 = %g, x1 = %g, x2 = %g, b -> draft = %g\n", fx3, fx1, x1, x2, b -> draft);
+      if (problem -> solution -> quiet == 0)
+        fprintf(stdout,"After: fx3 = %g, fx1 = %g, x1 = %g, x2 = %g, b -> draft = %g\n", fx3, fx1, x1, x2, b -> draft);
    }
 
    if (node [nn] -> x - environment -> depth > DBL_EPSILON) {
@@ -963,8 +965,12 @@ double ResolveBuoy (node, nn, step, twoD)
               &Uw, &Vw, &Ww);
    }
    Vs = Ws = 0;
-   fprintf(stdout, "current velocity %f, %f\n", Vw, Ww); 
-   fprintf(stdout, "stokes velocity %f, %f\n", Vs, Ws); 
+   
+   if (problem -> solution -> quiet == 0)
+   {
+    fprintf(stdout, "current velocity %f, %f\n", Vw, Ww); 
+    fprintf(stdout, "stokes velocity %f, %f\n", Vs, Ws); 
+   }
    Vw += Vs;
    Ww += Ws;
 
