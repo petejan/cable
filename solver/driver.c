@@ -509,7 +509,7 @@ SolutionDriver(Solution *s, int iterations)
                     node[nn] -> s,
                     environment -> depth - node[nn] -> x,
                     node[nn] -> Y[3]*180/M_PI,
-                    T/4.4482216, 
+                    T,
                     sf(node[nn], node[nn] -> segment -> material -> swl),
                     sf(node[nn], node[nn] -> segment -> material -> yield));
 
@@ -537,7 +537,7 @@ SolutionDriver(Solution *s, int iterations)
                         n -> s, 
                         environment -> depth - n -> x,
                         n -> Y[3]*180/M_PI,
-                        maxT/4.4482216, 
+                        maxT,
                         sf(max_n, n -> segment -> material -> swl),
                         sf(max_n, n -> segment -> material -> yield));
 
@@ -548,13 +548,13 @@ SolutionDriver(Solution *s, int iterations)
                 TensionToGlobal(node[1], 1, &Fx, &Fy, &Fz);
                 phi = node[1] -> Y[3];
                 Sn  = node[1] -> Y[2];
-                Wmin = ((T*sin(phi) + Sn*cos(phi))*problem -> terminal[1]->safety/problem -> terminal[1]->friction +  T*cos(phi) - Sn*sin(phi))/4.4482216;
+                Wmin = ((T*sin(phi) + Sn*cos(phi))*problem -> terminal[1]->safety/problem -> terminal[1]->friction +  T*cos(phi) - Sn*sin(phi));
                 fprintf(fp, "%s %f %f %f %f %f %f %f\n",
                     problem -> terminal[1] -> anchor -> name, 
                     node[1] -> s,
                     environment -> depth - node[1] -> x, 
                     node[1] -> Y[3]*180/M_PI,
-                    T/4.4482216, 
+                    T,
                     sf(node[1], node[1] -> segment -> material -> swl),
                     sf(node[1], node[1] -> segment -> material -> yield), Wmin);
 

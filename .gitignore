@@ -1,0 +1,8 @@
+
+*.o
+*.exe
+model/parser.output
+model/lexer.c
+*.a
+model/parser.c
+model/parser.h

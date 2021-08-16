@@ -83,7 +83,7 @@ SummarizeWeights (FILE *fp, Problem *p, Segment *seg, int ns, double *w0, double
        fprintf(fp, "WARNING: this summation is not an accurate proxy for tension\n");
    }
 
-   fprintf(fp, "\n%23s: %g lbs\n", p -> terminal[2] -> buoy -> name, weight/4.4482216);
+   fprintf(fp, "\n%23s: %g kg\n", p -> terminal[2] -> buoy -> name, weight);
  
    for (i = ns ; i >= 1 ; i--) {
       segw = 0.0;
@@ -101,13 +101,13 @@ SummarizeWeights (FILE *fp, Problem *p, Segment *seg, int ns, double *w0, double
       sprintf(buff, "%6.1f m %-16s", 
               seg[i] -> length, seg[i] -> material -> name);
       rtrim(buff);   
-      fprintf(fp, "%23s: %-g lbs\n", buff, weight/4.4482216);
+      fprintf(fp, "%23s: %-g kg\n", buff, weight);
  
       if (seg [i] -> connector != NULL) {
          weight += seg [i] -> connector -> wet;
          
-         fprintf(fp, "%23s: %-g lbs\n", seg[i] -> connector -> name,
-                 weight/4.4482216);
+         fprintf(fp, "%23s: %-g kg\n", seg[i] -> connector -> name,
+                 weight);
       }
 
 /*
@@ -163,7 +163,7 @@ AddMaterial(Item item, void *call_data)
     if (header) {
         fprintf(out_fp, "\n   totals: length     %.1f\n", length);
         fprintf(out_fp, "           air mass   %.1f\n", mass);
-        fprintf(out_fp, "           wet weight %.1f lbs\n", wet/4.4482216);
+        fprintf(out_fp, "           wet weight %.1f kg\n", wet);
     }
 
     return 0;

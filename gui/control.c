@@ -427,7 +427,7 @@ ControlMakePlots(Solution *s, int flags)
         s -> snapPlot[FORCE] = 
                CreateChartDisplay(s -> problem -> title, 
                                   CHART_ANIMATE, 1, 
-                                  "s (m)", "tension (lbs)", 
+                                  "s (m)", "tension (kg)",
                                   NULL, NULL, NULL, 0, 
                                   s -> problem -> num_nodes, s);
         PositionResult(s, ((DisplayObject) s -> snapPlot[FORCE]) -> toplevel);
@@ -579,7 +579,7 @@ ControlPlotTime(double t, Problem *p, Environment *e)
                     y[j] = node[k] -> x;
                     break;
                 case FORCE:
-                    y[j] = Tension(node[k] -> Y[1], node[k] -> material)/4.4482216;
+                    y[j] = Tension(node[k] -> Y[1], node[k] -> material);
                     break;
                 default:
                     break;
@@ -617,7 +617,7 @@ ControlPlotSnaps(Problem *p, Environment *e)
                     break;
                 case FORCE:
                     x[j-1] = node[j] -> s;
-                    y[0][j-1] = Tension(node[j] -> Y[1], node[j] -> material)/4.4482216;
+                    y[0][j-1] = Tension(node[j] -> Y[1], node[j] -> material);
                     break;
                 default:
                     x[j-1] = node[j] -> s;
@@ -805,7 +805,7 @@ ControlTabulateResults(Problem *p, Environment *e)
     GtkWidget    *vbox;
     GError       *err = NULL;
     GType         types[] = {G_TYPE_STRING, G_TYPE_FLOAT, G_TYPE_FLOAT, G_TYPE_FLOAT, G_TYPE_FLOAT, G_TYPE_FLOAT, G_TYPE_FLOAT, G_TYPE_FLOAT, G_TYPE_FLOAT, G_TYPE_FLOAT};
-    char *cols[] = {"node", "s", "z", "depth", "x", "Fx", "Fz", "tension (lbs)", "% swl", "% yield"};
+    char *cols[] = {"node", "s", "z", "depth", "x", "Fx", "Fz", "tension (kg)", "% swl", "% yield"};
 #define NCOLS 10
 
     s = p -> solution;
@@ -867,9 +867,9 @@ ControlTabulateResults(Problem *p, Environment *e)
                            2, node[nn] -> x, 
                            3, e -> depth - node[nn] -> x,
                            4, node[nn] -> y, 
-                           5, Fy/4.4482216,
-                           6, Fx/4.4482216,
-                           7, T/4.4482216, 
+                           5, Fy,
+                           6, Fx,
+                           7, T,
                            8, sf(node[nn], node[nn] -> segment -> material -> swl),
                            9, sf(node[nn], node[nn] -> segment -> material -> yield),
                            -1);
@@ -900,9 +900,9 @@ ControlTabulateResults(Problem *p, Environment *e)
                            2, n -> x, 
                            3, e -> depth - n -> x,
                            4, n -> y, 
-                           5, Fy/4.4482216,
-                           6, Fx/4.4482216,
-                           7, maxT/4.4482216, 
+                           5, Fy,
+                           6, Fx,
+                           7, maxT,
                            8, sf(max_n, n -> segment -> material -> swl),
                            9, sf(max_n, n -> segment -> material -> yield),
                            -1);
@@ -918,9 +918,9 @@ ControlTabulateResults(Problem *p, Environment *e)
                                2, n -> x, 
                                3, e -> depth - n -> x,
                                4, n -> y, 
-                               5, Fy/4.4482216,
-                               6, Fx/4.4482216,
-                               7, T/4.4482216, 
+                               5, Fy,
+                               6, Fx,
+                               7, T,
                                8, sf(n, n -> segment -> material -> swl),
                                9, sf(n, n -> segment -> material -> yield),
                                -1);
@@ -938,9 +938,9 @@ ControlTabulateResults(Problem *p, Environment *e)
                            2, node[1] -> x, 
                            3, e -> depth - node[1] -> x, 
                            4, node[1] -> y, 
-                           5, Fy/4.4482216,
-                           6, Fx/4.4482216,
-                           7, T/4.4482216, 
+                           5, Fy,
+                           6, Fx,
+                           7, T,
                            8, sf(node[1], node[1] -> segment -> material -> swl),
                            9, sf(node[1], node[1] -> segment -> material -> yield),
                            -1);
@@ -974,7 +974,7 @@ ControlTabulateResults(Node *node, int nn, Environment *e)
 
         j = nn - i;
 
-        T = NodeTension(node[i])/4.4482216;
+        T = NodeTension(node[i]);
         if (T > max_T) {
             max_T = T;
             max_T_i = i;
@@ -1003,7 +1003,7 @@ ControlTabulateResults(Node *node, int nn, Environment *e)
         }
    
      
-        sprintf(buff, "%11.5f\n", NodeTension(node[i])/4.4482216); 
+        sprintf(buff, "%11.5f\n", NodeTension(node[i]));
         y[j*nc + 3] = strdup(buff);
 
         sprintf(buff, "%11.5f\n", e -> depth - node[i] -> x); 
@@ -1044,7 +1044,7 @@ UpdateSpatialAnimation(DisplayObject obj, Result *res, int var, double t)
             break;
         case FORCE:
             x[j-1] = res -> s[j];
-            y[0][j-1] = res -> force[0][j]/4.4482216;
+            y[0][j-1] = res -> force[0][j];
             break;
         default:
             x[j-1] = res -> s[j];
