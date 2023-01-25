@@ -772,6 +772,7 @@ ParseCppOptions (argc, argv)
 	    cpp = argv [i];
 	} else if (arg [1] == 'D' || arg [1] == 'U' || arg [1] == 'I') {
 	    strcat (cpp_args, arg);
+		strcat (cpp_args, " ");
 	} else
 	    argv [j ++] = arg;
 
