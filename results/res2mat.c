@@ -137,6 +137,45 @@ static void MatlabVector (a, n, name, fp)
    return;
 }
 
+static void MatlabChar (a, n, name, fp)
+   char	*a;
+   int		 n;
+   char		*name;
+   FILE		*fp;
+{
+   int		arch;
+   int		mopt;
+   double	x;
+   unsigned	i;
+   MATheader	h;
+
+   arch = architecture ( );
+
+   // who would have thought, text (character arrays) are stored as double numbers encoding the ASCII
+   // http://www.mathworks.com/help/pdf_doc/matlab/matfile_format.pdf, page 39
+
+   mopt = arch*1000 + 0*100 + 0*10 + 1*1;
+                      /* reserved */
+                              /* floating point */
+                                     /* text matrix */
+   h.type = mopt;
+   h.mrows = 1;
+   h.ncols = n;
+   h.imagf = 0;
+   h.namlen = strlen(name) + 1;
+
+   fwrite (&h, sizeof(MATheader), 1, fp);
+   fwrite (name, sizeof(char), h.namlen, fp);
+
+   for (i = 0 ; i < n ; i++) {
+      x = a [i];
+      fwrite (&x, sizeof(x), 1, fp);
+   }
+
+   return;
+}
+
+
 static int 
 ProcessBranchInfo (Result *res, FILE *out)
 {
@@ -454,6 +493,10 @@ SolutionToMatlab(char *resname, char *matname, int global, int lbs, int totals, 
 
 //    printf("use_file = %d, req_twoD = %d, file_twoD = %d\n",
 //           use_file_twoD, requested_twoD, res -> twoD); 
+
+    printf("file title : %s\n", res -> title);
+
+    MatlabChar(res -> title, strlen(res->title), "problemtitle", out);
 
     if (res -> depth_ref) 
         MatlabVector (&(res -> depth), 1, "depth", out);
