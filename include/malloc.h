@@ -1,2 +1,2 @@
-void free();
+void free(void *p);
 // char *malloc();

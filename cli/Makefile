@@ -66,7 +66,7 @@ else ifeq ($(OS),nox)
    WOBJS  = 
    XLIBS  =
    WIDGETS =
-   LDFLAGS  = -g -static 
+   LDFLAGS  = -g
    ZLIBS    = -lz -lm
 else
    CFLAGS = -g -DGUI -Wall -funroll-loops -I../include \
@@ -95,10 +95,10 @@ cable:          $(OBJS) $(LIBS) $(WIDGETS) $(WOBJS)
 		$(CC) -o cable $(LDFLAGS) $(OBJS) $(WOBJS) $(LIBS) $(WIDGETS) $(XLIBS) $(ZLIBS) $(DEBUGLIBS) $(LAMP) 
 
 res2mat:    $(MATOBJS) $(RESLIBS) $(LIBS)
-		$(CC) -static -o res2mat $(LDFLAGS) $(MATOBJS) $(RESLIBS) $(ZLIBS) 
+		$(CC) -o res2mat $(LDFLAGS) $(MATOBJS) $(RESLIBS) $(ZLIBS) 
 
 res2asc:    $(ASCOBJS) $(RESLIBS) $(LIBS)
-		$(CC) $(LDFLAGS) -static -o res2asc $(ASCOBJS) $(RESLIBS) $(ZLIBS)
+		$(CC) $(LDFLAGS) -o res2asc $(ASCOBJS) $(RESLIBS) $(ZLIBS)
 
 api:		api.o $(OBJS) $(LIBS)
 		rm -f libcable.a

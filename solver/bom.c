@@ -70,7 +70,7 @@ SummarizeWeights (FILE *fp, Problem *p, Segment *seg, int ns, double *w0, double
    int		i;
    int		j;
    double	k_equiv, k_total; 
-   char     buff[24];
+   char     buff[80];
 
    weight = p -> terminal[2] -> buoy -> w - p -> terminal[2] -> buoy -> buoyancy;
    if (length)

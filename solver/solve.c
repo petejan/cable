@@ -536,7 +536,7 @@ SolveDE (difeq, update, itmax, conv, base_relax, scalv,
          for (k = 1 ; k <= m ; k++) {
             data = sol [(k - 1)*ne + j];
 
-            if (!finite(data)) {
+            if (!isfinite(data)) {
                DisplayMessage("NaN/Inf error, node = %d, DOF = %d", k, j);
                SetError(C_NANINF);
                return 1;
@@ -591,7 +591,7 @@ SolveDE (difeq, update, itmax, conv, base_relax, scalv,
       DisplayInfo (step, tm, it, err, relax);
       // DisplayInfo (step, tm, it, 0.0, relax);
   
-      if (!finite(err)) {
+      if (!isfinite(err)) {
          SetError(C_NANINF);
          return 1;
       }
@@ -1342,6 +1342,7 @@ int CheckDynstatConvergence(node, num_nodes, dt, scalv, ndof, twoD)
    double	  dt;
    double	 *scalv;
    int		  ndof;
+   int		  twoD;
 {
    int		i;
    int		j;
